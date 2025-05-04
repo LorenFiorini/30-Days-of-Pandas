@@ -16,13 +16,17 @@ def create_folder_structure(folder_name):
     # Create target directory
     os.makedirs(target_dir, exist_ok=True)
 
-    # Create each file with placeholder content
+    # Create each file only if it doesn't already exist
     for filename, content in files.items():
         file_path = os.path.join(target_dir, filename)
-        with open(file_path, 'w') as f:
-            f.write(content)
+        if not os.path.exists(file_path):
+            with open(file_path, 'w') as f:
+                f.write(content)
+            print(f"Created: {file_path}")
+        else:
+            print(f"Skipped (already exists): {file_path}")
 
-    print(f"Created folder and files under: {target_dir}")
+    print(f"Folder checked/created at: {target_dir}")
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -31,4 +35,3 @@ if __name__ == "__main__":
 
     folder_name = sys.argv[1]
     create_folder_structure(folder_name)
-
